@@ -14,6 +14,7 @@ func _() {
 	var x [1]struct{}
 	_ = x[HELLO-1]
 	_ = x[WORLD-2]
+	_ = x[ALIAS-2]
 }
 
 const (

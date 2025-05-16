@@ -1,4 +1,4 @@
-module github.com/jjonline/i18n-stringer
+module github.com/starfork/i18n-stringer
 
 go 1.24.2
 

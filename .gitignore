@@ -4,3 +4,4 @@ vendor
 *.pri
 *.pub
 *.log
+i18n-stringer

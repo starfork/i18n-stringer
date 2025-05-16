@@ -12,6 +12,7 @@
 // i18n-stringer is a tool to automate the creation of methods that satisfy the fmt.Stringer, error
 // interface. Given the name of a (signed or unsigned) integer type T that has constants
 // defined, i18n-stringer will create a new self-contained Go source file implementing
+//
 //	func (t T) String() string
 //	func (t T) Error() string
 //	func (t T) Wrap(err error, locale string, args ...interface{}) *I18nTErrorWrap
@@ -24,6 +25,7 @@
 //	2. All type interface{} for named param ...args interface{}, can only use variable typed T or string
 //
 // wrapped type I18nTErrorWrap implement method list
+//
 //	func (t *I18nTErrorWrap) Translate() string
 //	func (t *I18nTErrorWrap) String() string
 //	func (t *I18nTErrorWrap) Error() string
@@ -59,14 +61,14 @@
 //
 // For example,
 //
-//  .
-//  ├── i18n
-//  │     └── en.toml
-//  │     ├── zh_cn.toml
-//  │     └── zh_hk
-//  │     │     ├── user.toml
-//  │     │     └── merchant.toml
-//  └── pill.go
+//	.
+//	├── i18n
+//	│     └── en.toml
+//	│     ├── zh_cn.toml
+//	│     └── zh_hk
+//	│     │     ├── user.toml
+//	│     │     └── merchant.toml
+//	└── pill.go
 //
 // Define TOML key-value pairs in the file srcdir/i18n/en.toml
 //
@@ -75,7 +77,7 @@
 // Ibuprofen="en locale Ibuprofen"
 // Acetaminophen="en locale Acetaminophen"
 //
-// Similarly, other TOML files are also defined
+// # Similarly, other TOML files are also defined
 //
 // The above directory tree defines three locale: en, zh_cn AND zh_hk
 // As you can see, the TOML file name in the i18n directory is used as the locale identifier,
@@ -156,7 +158,6 @@ import (
 	"go/format"
 	"go/token"
 	"go/types"
-	"golang.org/x/tools/go/packages"
 	"io/fs"
 	"log"
 	"os"
@@ -164,6 +165,8 @@ import (
 	"sort"
 	"strings"
 	"sync"
+
+	"golang.org/x/tools/go/packages"
 )
 
 var (
@@ -178,7 +181,7 @@ var (
 
 // Usage is a replacement usage function for the flags package.
 func Usage() {
-	_, _ = fmt.Fprintf(os.Stderr, "Usage of i18n-stringer:\n")
+	_, _ = fmt.Fprintf(os.Stderr, "Usage of i18n-stringer(starfork edit):\n")
 	_, _ = fmt.Fprintf(os.Stderr, "\ti18n-stringer [flags] -type T [directory]\n")
 	_, _ = fmt.Fprintf(os.Stderr, "\ti18n-stringer [flags] -type T -tomlpath DIR -check # just for check\n")
 	_, _ = fmt.Fprintf(os.Stderr, "\ti18n-stringer [flags] -type T -defaultlocale LOCALE -tomlpath DIR files... # Must be a single package\n")
@@ -856,6 +859,7 @@ func (g *Generator) buildOneRun(runs [][]Value, typeName string) {
 }
 
 // Arguments to format are:
+//
 //	[1]: type name
 //	[2]: camelCase locale name
 //	[3]: less than zero check (for signed types)
@@ -876,6 +880,7 @@ func (i %[1]s) _transOne(locale string) string {
 `
 
 // Arguments to format are:
+//
 //	[1]: type name
 //	[2]: camelCase locale name
 //	[3]: locale name
@@ -884,6 +889,7 @@ const i18nOneRunCase = `case "%[3]s":
 `
 
 // Arguments to format are:
+//
 //	[1]: type name
 //	[2]: lowest defined value for type, as a string
 //	[3]: camelCase locale name
@@ -977,6 +983,7 @@ func (g *Generator) buildMap(runs [][]Value, typeName string) {
 }
 
 // Arguments to format are:
+//
 //	[1]: type name
 //	[2]: camelCase locale name
 //	[2]: locale name
@@ -988,6 +995,7 @@ const stringMapCase = `case "%[3]s":
 `
 
 // Arguments to format are:
+//
 //	[1]: type name
 //	[2]: case branch
 const stringMap = `// _transOne translate one CONST
@@ -1240,8 +1248,8 @@ func (p *Parser) GetLocaleValue(key, locale string) string {
 
 // parse parse toml config file
 // toml file just support utf8 K/V mode
-//  - CodeErr="aaa"
-//  - CodeErr1="aaa\"\n execute"
+//   - CodeErr="aaa"
+//   - CodeErr1="aaa\"\n execute"
 func (p *Parser) parse() {
 	// parse toml file dir list
 	dir, err := os.ReadDir(p.path)
